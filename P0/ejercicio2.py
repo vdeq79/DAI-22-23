@@ -1,6 +1,5 @@
 from cmath import sqrt
 
-
 def fibonacci(n):
     if(n==1):
         return 1
@@ -16,4 +15,4 @@ f.close()
 fib = fibonacci(n)
 f = open("salida.txt","w")
 f.write(str(fib))
-f.close
+f.close()

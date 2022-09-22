@@ -11,7 +11,6 @@ def criba(n):
     return list
 
 
-
 list = (criba(200))
 for i in range(0,len(list)):
     if list[i]:
