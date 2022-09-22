@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, url_for
+from flask import Flask, send_from_directory, render_template
 from math import isqrt
 import random
 import re
@@ -105,8 +105,7 @@ def check3(input):
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/figuras')
 def figuras():
-    url_for( 'figuras', filename='js/figuras.js') 
-    return send_from_directory('figuras','figuras.html')
+    return render_template('figuras.html')
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.errorhandler(404)
