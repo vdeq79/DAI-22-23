@@ -1,0 +1,19 @@
+db.recipes.find({"ingredients":{$size:2}})
+db.recipes.find({"ingredients.name":"vodka"})
+db.recipes.find({"ingredients.name":"Vodka"})
+db.recipes.find({name:Cuba Libre})
+db.recipes.find({name:"Cuba Libre"})
+db.recipes.find({"name":"Cuba Libre"})
+db.recipes.find()
+db.recipes.find({"name":"cuba libre"})
+use cockteles
+show collections
+use cockteles
+db.recipes.find()
+show collections
+use cockteles
+show collections
+use cockteles
+show dbs
+exit
+show dbs
