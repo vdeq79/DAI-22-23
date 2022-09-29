@@ -1,7 +1,6 @@
-from urllib import response
-from flask import Flask, send_from_directory, render_template, jsonify
+from flask import Flask, send_from_directory, render_template, Response
+from bson.json_util import dumps
 from pymongo import MongoClient
-import bson.json_util as json_util
 from math import isqrt
 import random
 import re
@@ -126,7 +125,6 @@ def extraerDatosMongo(busqueda):
   lista_docs = []
 
   for doc in busqueda:
-    doc['_id'] = str(doc['_id'])
     app.logger.debug(doc)  # salida consola
     lista_docs.append(doc)
 
@@ -135,7 +133,7 @@ def extraerDatosMongo(busqueda):
   'data': lista_docs
   }
 
-  return response
+  return dumps(response)
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/todas_las_recetas')
@@ -145,7 +143,7 @@ def mongo():
   response = extraerDatosMongo(recetas)
   
   # Devolver en JSON al cliente
-  return jsonify(response)
+  return Response(response, mimetype='application/json')
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/recetas_de/cuba_libre')
@@ -155,7 +153,7 @@ def cuba_libre():
   response = extraerDatosMongo(recetas)
 
   # Devolver en JSON al cliente
-  return jsonify(response)
+  return Response(response, mimetype='application/json')
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/recetas_con/vodka')
@@ -165,7 +163,7 @@ def con_vodka():
   response = extraerDatosMongo(recetas)
 
   # Devolver en JSON al cliente
-  return jsonify(response)
+  return Response(response, mimetype='application/json')
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/recetas_compuestas_de/2/ingredientes')
@@ -175,6 +173,6 @@ def dos_ingredientes():
   response = extraerDatosMongo(recetas)
 
   # Devolver en JSON al cliente
-  return jsonify(response)
+  return Response(response, mimetype='application/json')
 
   
