@@ -1,4 +1,6 @@
-from flask import Flask, send_from_directory, render_template, Response
+from unittest import result
+from flask import Flask, send_from_directory, render_template, Response, request, jsonify
+from bson import ObjectId
 from bson.json_util import dumps
 from pymongo import MongoClient
 from math import isqrt
@@ -175,4 +177,50 @@ def dos_ingredientes():
   # Devolver en JSON al cliente
   return Response(response, mimetype='application/json')
 
-  
+#<----------------------------------------------------------------------------------------------------------------------------------->
+# para devolver una lista (GET), o añadir (POST)
+@app.route('/api/recipes', methods=['GET', 'POST'])
+def api_1():
+    if request.method == 'GET':
+      lista = []
+      buscados = db.recipes.find().sort('name')
+      for recipe in buscados:
+          recipe['_id'] = str(recipe['_id']) # paso a string
+          lista.append(recipe)
+      return jsonify(lista)
+        
+    if request.method == 'POST':
+      data = request.get_json()
+      result = db.recipes.insert_one(data)
+      return str(result.inserted_id)
+
+#<----------------------------------------------------------------------------------------------------------------------------------->
+@app.route('/api/recipes/<id>', methods=['GET', 'PUT', 'DELETE'])
+def api_2(id):
+  if request.method == 'GET':
+      buscado = db.recipes.find_one({'_id':ObjectId(id)})
+      if buscado:
+        buscado['_id'] = str(buscado['_id'])
+        return jsonify(buscado)
+      else:
+        return jsonify({'error':'Not found'}), 404
+
+  if request.method == 'PUT':
+      data = request.get_json()
+      result = db.recipes.update_one({'_id':ObjectId(id)}, data)
+
+      if(result.matched_count==1):
+        modificado = db.recipes.find_one({'_id':ObjectId(id)})
+        modificado['_id'] = str(modificado['_id'])
+        return jsonify(modificado)
+        #return str(result.upserted_id)     upserted_id return none?
+      else:
+        return jsonify({'error':'Not found'}), 404
+
+  if request.method == 'DELETE':
+      result = db.recipes.delete_one({'_id':ObjectId(id)})
+
+      if(result.deleted_count==1):
+          return id
+      else:
+        return jsonify({'error':'Not found'}), 404

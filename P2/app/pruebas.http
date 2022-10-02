@@ -1,0 +1,30 @@
+GET http://localhost:5000/api/recipes
+
+###
+
+POST http://localhost:5000/api/recipes 
+content-type: application/json
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+
+
+###
+GET http://localhost:5000/api/recipes/63396d64500d2a918032d3e5
+
+###
+PUT http://localhost:5000/api/recipes/63396d64500d2a918032d3e5
+content-type: application/json
+
+{   
+    "$set":{
+        "name": "spl",
+        "time": "Wed, 21 Oct2015 18:30:101 GMT"
+    }
+}
+
+
+###
+DELETE http://localhost:5000/api/recipes/63396d64500d2a918032d3e5
