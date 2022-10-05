@@ -28,3 +28,41 @@ content-type: application/json
 
 ###
 DELETE http://localhost:5000/api/recipes/63396d64500d2a918032d3e5
+
+
+###
+GET http://localhost:5000/RecipeList
+
+
+###
+POST http://localhost:5000/RecipeList
+content-type: application/json
+
+{
+    "name": "sample",
+    "ingredients": [{"EQ":"Wed, 21 Oct 2015 18:27:50 GMT"}, {"eq":"algo"}],
+    "instructions": ["Wed, 21 Oct 2015 18:27:50 GMT",
+      "Shake well and pour in a highballglass"]
+
+}
+
+###
+GET http://localhost:5000/Recipe/633dc013f9c0ad78e143f869
+
+###
+DELETE http://localhost:5000/Recipe/633dc336ee9e5d2070f02e53
+
+
+###
+PUT http://localhost:5000/Recipe/633dbf9d097ae82c829337e5
+content-type: application/json
+
+{
+    "$set":{
+        "name": "sample2",
+        "ingredients": "algo",
+        "instructions": ["Wed, 21 Oct 2015 18:27:50 GMT",
+        "Shake well and pour in a highballglass"]
+    }
+
+}

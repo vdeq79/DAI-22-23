@@ -1,4 +1,3 @@
-from unittest import result
 from flask import Flask, send_from_directory, render_template, Response, request, jsonify
 from bson import ObjectId
 from bson.json_util import dumps
@@ -13,6 +12,8 @@ client = MongoClient("mongo", 27017)
 db = client.cockteles   
 
 app = Flask(__name__)
+
+import api
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/')
@@ -213,7 +214,6 @@ def api_2(id):
         modificado = db.recipes.find_one({'_id':ObjectId(id)})
         modificado['_id'] = str(modificado['_id'])
         return jsonify(modificado)
-        #return str(result.upserted_id)     upserted_id return none?
       else:
         return jsonify({'error':'Not found'}), 404
 
