@@ -284,7 +284,7 @@ class Recipe(Resource):
           response = jsonify(buscado)
         else:
           response = jsonify({'error':'Not found'})
-          response.status = 404
+          response.status_code = 404
         
         return response
 
@@ -296,11 +296,11 @@ class Recipe(Resource):
           modificado = db.recipes.find_one({'_id':ObjectId(id)})
           modificado['_id'] = str(modificado['_id'])
           response = jsonify(modificado)
-          response.status = 201
+          response.status_code = 201
 
         else:
           response = jsonify({'error':'Not found'})
-          response.status = 404
+          response.status_code = 404
         
         return response
 
@@ -311,7 +311,7 @@ class Recipe(Resource):
           return id, 202
         else:
           response = jsonify({'error':'Not found'})
-          response.status = 404
+          response.status_code = 404
           return response
 
 
