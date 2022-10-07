@@ -12,22 +12,24 @@ content-type: application/json
 
 
 ###
-GET http://localhost:5000/api/recipes/633ea1b281c4f6b39c56882b
+GET http://localhost:5000/api/recipes/6340342daa988cf9d50d0f4d
 
 ###
-PUT http://localhost:5000/api/recipes/63396d64500d2a918032d3e5
+PUT http://localhost:5000/api/recipes/63403833a4ae96346d8fea1b
 content-type: application/json
 
 {   
     "$set":{
         "name": "spl",
-        "time": "Wed, 21 Oct2015 18:30:101 GMT"
+        "ingredients": [{"EQ":"Wed, 21 Oct 2015 18:27:50 GMT"}, {"eq":"algo"}],
+        "instructions": ["fsaf",
+        "Shake well and pour in a highballglass"]    
     }
 }
 
 
 ###
-DELETE http://localhost:5000/api/recipes/63396d64500d2a918032d3e5
+DELETE http://localhost:5000/api/recipes/633dbf9d097ae82c829337e5
 
 
 ###
@@ -47,21 +49,21 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:5000/Recipe/633f0e0bdb559e1a59d3b36f
+GET http://localhost:5000/Recipe/6340342daa988cf9d50d0f4d
 
 ###
-DELETE http://localhost:5000/Recipe/633f0e0bdb559e1a59d3b36f
+DELETE http://localhost:5000/Recipe/63403833a4ae96346d8fea1b
 
 
 ###
-PUT http://localhost:5000/Recipe/633dbf9d097ae82c829337e5
+PUT http://localhost:5000/Recipe/63403833a4ae96346d8fea1b
 content-type: application/json
 
 {
     "$set":{
         "name": "sample2",
         "ingredients": "algo",
-        "instructions": ["Wed, 21 Oct 2015 18:27:50 GMT",
+        "instructions": ["wtf",
         "Shake well and pour in a highballglass"]
     }
 
