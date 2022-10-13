@@ -16,7 +16,7 @@ class Receta(models.Model):
 class Ingrediente(models.Model):
   nombre        = models.CharField(max_length=100)
   cantidad      = models.PositiveSmallIntegerField()
-  unidades      = models.CharField()
+  unidades      = models.CharField(max_length=5)
   receta        = models.ForeignKey(Receta, on_delete=models.CASCADE)  
   
   def __str__(self):

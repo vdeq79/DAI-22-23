@@ -1,3 +1,4 @@
+from queue import Empty
 from flask import Flask, send_from_directory, render_template, Response, request, jsonify
 from flask_restful import Resource, Api, reqparse
 from bson import ObjectId
@@ -23,19 +24,19 @@ def hello_world():
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/criba/<int:n>')
 def criba(n):
-    list = [True] * (n-1)
-    numeros = []
+  list = [True] * (n-1)
+  numeros = []
 
-    for i in range(2,isqrt(n)+1):
-        if list[i-2]:
-            for j in range(i,int(n/i)+1):
-                list[i*j-2] = False
+  for i in range(2,isqrt(n)+1):
+      if list[i-2]:
+          for j in range(i,int(n/i)+1):
+              list[i*j-2] = False
 
-    for i in range(0,len(list)):
-      if list[i]:
-        numeros.append(i+2)
+  for i in range(0,len(list)):
+    if list[i]:
+      numeros.append(i+2)
 
-    return numeros
+  return numeros
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/fibonacci/<fichero>')
@@ -105,11 +106,11 @@ def check2(input):
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/check3/<input>')
 def check3(input):
-    result = re.search(r'[0-9]{4}[\s-][0-9]{4}[\s-][0-9]{4}[\s-][0-9]{4}',input)
-    if(result==None):
-      return 'None'
-    else:
-      return str(result.group(0))
+  result = re.search(r'[0-9]{4}[\s-][0-9]{4}[\s-][0-9]{4}[\s-][0-9]{4}',input)
+  if(result==None):
+    return 'None'
+  else:
+    return str(result.group(0))
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/figuras')
@@ -202,133 +203,147 @@ def compuestas_de(varargs=None):
 # para devolver una lista (GET), o añadir (POST)
 @app.route('/api/recipes', methods=['GET', 'POST'])
 def api_1():
-    if request.method == 'GET':
-      lista = []
+  if request.method == 'GET':
+    ingredientes = request.args.get('con')
+
+    lista = []
+    if not(ingredientes):  
       buscados = db.recipes.find().sort('name')
-      for recipe in buscados:
-          recipe['_id'] = str(recipe['_id']) # paso a string
-          lista.append(recipe)
-      return jsonify(lista)
-        
-    if request.method == 'POST':
-      data = request.get_json()
-      result = db.recipes.insert_one(data)
-      return str(result.inserted_id), 201
+    else:
+      varargs = ingredientes.split(",")
+      buscados = db.recipes.find({"ingredients.name":{"$all":varargs}})
+
+    for recipe in buscados:
+        recipe['_id'] = str(recipe['_id']) # paso a string
+        lista.append(recipe)
+    return jsonify(lista)
+      
+  if request.method == 'POST':
+    data = request.get_json()
+    result = db.recipes.insert_one(data)
+    return str(result.inserted_id), 201
+
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/api/recipes/<id>', methods=['GET', 'PUT', 'DELETE'])
 def api_2(id):
   if request.method == 'GET':
-      buscado = db.recipes.find_one({'_id':ObjectId(id)})
-      if buscado:
-        buscado['_id'] = str(buscado['_id'])
-        return jsonify(buscado)
-      else:
-        return jsonify({'error':'Not found'}), 404
+    buscado = db.recipes.find_one({'_id':ObjectId(id)})
+    if buscado:
+      buscado['_id'] = str(buscado['_id'])
+      return jsonify(buscado)
+    else:
+      return jsonify({'error':'Not found'}), 404
 
   if request.method == 'PUT':
-      data = request.get_json()
+    data = request.get_json()
 
-      if(not '$set' in data):
-        return jsonify({'error':'Parametros incorrectos'}), 400
+    if(not '$set' in data):
+      return jsonify({'error':'Parametros incorrectos'}), 400
 
-      if( not('name' in data['$set'] and 'ingredients' in data['$set'] and 'instructions' in data['$set'])):
-        return jsonify({'error':'Parametros incorrectos'}), 400
+    if( not('name' in data['$set'] and 'ingredients' in data['$set'] and 'instructions' in data['$set'])):
+      return jsonify({'error':'Parametros incorrectos'}), 400
 
-      result = db.recipes.update_one({'_id':ObjectId(id)}, data)
+    result = db.recipes.update_one({'_id':ObjectId(id)}, data)
 
-      if(result.matched_count==1):
-        modificado = db.recipes.find_one({'_id':ObjectId(id)})
-        modificado['_id'] = str(modificado['_id'])
-        return jsonify(modificado), 201
-      else:
-        return jsonify({'error':'Not found'}), 404
+    if(result.matched_count==1):
+      modificado = db.recipes.find_one({'_id':ObjectId(id)})
+      modificado['_id'] = str(modificado['_id'])
+      return jsonify(modificado), 201
+    else:
+      return jsonify({'error':'Not found'}), 404
 
   if request.method == 'DELETE':
-      result = db.recipes.delete_one({'_id':ObjectId(id)})
+    result = db.recipes.delete_one({'_id':ObjectId(id)})
 
-      if(result.deleted_count==1):
-          return id, 202
-      else:
-        return jsonify({'error':'Not found'}), 404
+    if(result.deleted_count==1):
+        return id, 202
+    else:
+      return jsonify({'error':'Not found'}), 404
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 recipe_parser = reqparse.RequestParser()
 recipe_parser.add_argument("name", type=str, help="El nombre es requerido" ,required=True)
-recipe_parser.add_argument("slug", type=str)
 recipe_parser.add_argument("ingredients", action='append', help="La lista de ingredientes es requerida" ,required=True)
 recipe_parser.add_argument("instructions", type=str, action='append' ,help="Las instrucciones son requeridas" ,required=True)
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 # para devolver una lista (GET), o añadir (POST)
 class RecipeList(Resource):
-    def get(self):
-        lista = []
-        buscados = db.recipes.find().sort('name')
-        for recipe in buscados:
-            recipe['_id'] = str(recipe['_id']) # paso a string
-            lista.append(recipe)
-        return jsonify(lista)
+  def get(self):
+    ingredientes = request.args.get('con')
 
-    def post(self):
-        args = recipe_parser.parse_args()
-        result = db.recipes.insert_one(args)
-        return str(result.inserted_id), 201
+    lista = []
+    if not(ingredientes):  
+      buscados = db.recipes.find().sort('name')
+    else:
+      varargs = ingredientes.split(",")
+      buscados = db.recipes.find({"ingredients.name":{"$all":varargs}})
+
+    for recipe in buscados:
+        recipe['_id'] = str(recipe['_id']) # paso a string
+        lista.append(recipe)
+    return jsonify(lista)
+
+  def post(self):
+    args = recipe_parser.parse_args()
+    result = db.recipes.insert_one(args)
+    return str(result.inserted_id), 201
 
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 class Recipe(Resource):
-    def get(self, id):
+  def get(self, id):
 
-      buscado = db.recipes.find_one({'_id':ObjectId(id)})
-      if buscado:
-        buscado['_id'] = str(buscado['_id'])
-        response = jsonify(buscado)
+    buscado = db.recipes.find_one({'_id':ObjectId(id)})
+    if buscado:
+      buscado['_id'] = str(buscado['_id'])
+      response = jsonify(buscado)
+    else:
+      response = jsonify({'error':'Not found'})
+      response.status_code = 404
+
+    return response
+
+  def put(self, id):
+    data = request.get_json()
+
+    if(not '$set' in data):
+      response = jsonify({'error':'Parametros incorrectos'})
+      response.status_code = 400
+      return response
+
+    if( not('name' in data['$set'] and 'ingredients' in data['$set'] and 'instructions' in data['$set'])):
+      response = jsonify({'error':'Parametros incorrectos'})
+      response.status_code = 400
+      return response
+
+    result = db.recipes.update_one({'_id':ObjectId(id)}, data)
+
+    if(result.matched_count==1):
+      modificado = db.recipes.find_one({'_id':ObjectId(id)})
+      modificado['_id'] = str(modificado['_id'])
+      response = jsonify(modificado)
+      response.status_code = 201
+    else:
+      response = jsonify({'error':'Not found'})
+      response.status_code = 404
+
+    return response
+
+  def delete(self, id):
+      result = db.recipes.delete_one({'_id':ObjectId(id)})
+
+      if(result.deleted_count==1):
+        return id, 202
       else:
         response = jsonify({'error':'Not found'})
         response.status_code = 404
-  
-      return response
-
-    def put(self, id):
-      data = request.get_json()
-
-      if(not '$set' in data):
-        response = jsonify({'error':'Parametros incorrectos'})
-        response.status_code = 400
         return response
 
-      if( not('name' in data['$set'] and 'ingredients' in data['$set'] and 'instructions' in data['$set'])):
-        response = jsonify({'error':'Parametros incorrectos'})
-        response.status_code = 400
-        return response
 
-      result = db.recipes.update_one({'_id':ObjectId(id)}, data)
-
-      if(result.matched_count==1):
-        modificado = db.recipes.find_one({'_id':ObjectId(id)})
-        modificado['_id'] = str(modificado['_id'])
-        response = jsonify(modificado)
-        response.status_code = 201
-      else:
-        response = jsonify({'error':'Not found'})
-        response.status_code = 404
-
-      return response
-
-    def delete(self, id):
-        result = db.recipes.delete_one({'_id':ObjectId(id)})
-
-        if(result.deleted_count==1):
-          return id, 202
-        else:
-          response = jsonify({'error':'Not found'})
-          response.status_code = 404
-          return response
-
-
-api.add_resource(RecipeList,'/RecipeList')
-api.add_resource(Recipe,'/Recipe/<id>')
+api.add_resource(RecipeList,'/ApiF/recipes')
+api.add_resource(Recipe,'/ApiF/recipes/<id>')
 
 
 if __name__ == "__main__":

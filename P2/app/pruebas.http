@@ -1,7 +1,9 @@
 GET http://localhost:5000/api/recipes
 
 ###
+GET http://localhost:5000/api/recipes?con=Vodka,Salt
 
+###
 POST http://localhost:5000/api/recipes 
 content-type: application/json
 
@@ -33,11 +35,13 @@ DELETE http://localhost:5000/api/recipes/633dbf9d097ae82c829337e5
 
 
 ###
-GET http://localhost:5000/RecipeList
-
+GET http://localhost:5000/ApiF/recipes
 
 ###
-POST http://localhost:5000/RecipeList
+GET http://localhost:5000/ApiF/recipes?con=Kirschwasser
+
+###
+POST http://localhost:5000/ApiF/recipes
 content-type: application/json
 
 {
@@ -49,14 +53,14 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:5000/Recipe/6340342daa988cf9d50d0f4d
+GET http://localhost:5000/ApiF/recipes/6347d4a2869c6f5588cdfacd
 
 ###
-DELETE http://localhost:5000/Recipe/63403833a4ae96346d8fea1b
+DELETE http://localhost:5000/ApiF/recipes/6347d3ec880785eaba38581b
 
 
 ###
-PUT http://localhost:5000/Recipe/63403833a4ae96346d8fea1b
+PUT http://localhost:5000/ApiF/recipes/63403833a4ae96346d8fea1b
 content-type: application/json
 
 {
