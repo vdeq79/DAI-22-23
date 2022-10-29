@@ -1,0 +1,13 @@
+{% extends "plantilla.html" %}
+
+{% block contenido %}
+
+{% if result %}
+    <h1>{{result.nombre}}</h1>
+    <h2>{{result.preparación}}</h2>
+    {% for imagen in imagenes %}
+        <img src="{{imagen.imagen.url}}"/> 
+    {% endfor %}
+{% endif %}
+
+{% endblock %}

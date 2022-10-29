@@ -1,6 +1,9 @@
 from multiprocessing import context
-from .models import Receta
+from queue import Empty
+from .models import ImagenReceta, Ingrediente, Receta
 from django.shortcuts import  HttpResponse, render
+from django.core.exceptions import ObjectDoesNotExist
+
 
 # Create your views here.
 
@@ -14,8 +17,27 @@ def searchView(request):
     result = None
 
     if query!= '':
-        result = Receta.objects.get(nombre=query)
+        result = Receta.objects.filter(nombre=query)
+
+        if not result:
+                ingres = Ingrediente.objects.filter(nombre=query)
+                if ingres is not None:
+                    result=[ingre.receta for ingre in ingres]
+
 
 
     context = {"result":result}
     return render(request,'search.html', context=context)
+
+
+def recetaView(request, nombre):
+
+    result = None
+    imagenes = None
+
+    if nombre!= '':
+        result = Receta.objects.get(nombre=nombre)
+        imagenes = ImagenReceta.objects.filter(receta=result)
+    
+    context = {"result":result, "imagenes":imagenes}
+    return render(request,'receta.html', context=context)

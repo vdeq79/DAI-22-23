@@ -3,7 +3,22 @@
 {% block contenido %}
 
 {% if result %}
-<h1>{{ result.preparación }}</h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Enlace</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for receta in result %}
+      <tr>
+        <td>{{receta.nombre}}</td>
+        <td><a href="http://localhost:8000/receta/{{receta.nombre}}" >Enlace</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endif %}
 
 {% endblock %}
