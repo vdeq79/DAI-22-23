@@ -1,8 +1,5 @@
-from multiprocessing import context
-from queue import Empty
 from .models import ImagenReceta, Ingrediente, Receta
-from django.shortcuts import  HttpResponse, render, redirect
-from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render, redirect
 
 
 # Create your views here.
@@ -44,10 +41,13 @@ def recetaView(request, nombre):
 
 def modeView(request):
 
-    if request.session['night_mode'] == False or 'night_mode' not in request.session:
+    if 'night_mode' not in request.session:
         request.session['night_mode'] = True
     else:
-        request.session['night_mode'] = False
+        if request.session['night_mode'] == False: 
+            request.session['night_mode'] = True
+        else:
+            request.session['night_mode'] = False
 
     request.session.modified = True
     #return render(request,'plantilla.html')

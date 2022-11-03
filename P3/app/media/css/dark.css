@@ -1,13 +1,21 @@
 .navbar{
-    background-color: black !important;
-    color: aliceblue !important;
+    background-color: black;
+    color: aliceblue;
+}
+
+.navbar a{
+    color: orangered;
 }
 
 body{
-    background-color: midnightblue !important;
-    color: white !important;
+    background-color: midnightblue;
+    color: white;
 }
 
-table{
-    color: white !important;
+.table{
+    color: aliceblue;
+}
+
+.table a{
+    color: orangered;
 }
