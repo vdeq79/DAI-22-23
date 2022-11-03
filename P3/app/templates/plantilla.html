@@ -22,12 +22,13 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}">Navbar</a>
 
-        <form class="d-flex" role="search" action="{% url 'mode_switch' %}" method="POST">
+        <form class="d-flex" action="{% url 'mode_switch' %}" method="POST">
           {% csrf_token %}
-          {{ form }}
           <input type="checkbox" onchange="this.form.submit()" class="btn-check" id="btn-check" name="mode" {% if request.session.night_mode %} checked {% endif %}>
           <label class="btn btn-primary" for="btn-check" >Modo noche</label>
         </form>
+
+        <a href="{% url 'receta_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus">Añadir receta</span></a>
 
         <form class="d-flex" role="search" action="{% url 'result' %}" method="GET">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query">

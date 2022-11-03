@@ -7,5 +7,6 @@ urlpatterns = [
     path('', views.index, name="index"),
     path('result/', views.searchView, name="result"),
     path('receta/<nombre>/', views.recetaView, name="receta"),
-    path(' ', views.modeView, name="mode_switch")
+    path(' ', views.modeView, name="mode_switch"),
+    path('receta/new', views.receta_new,name="receta_new")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
