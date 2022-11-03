@@ -1,7 +1,7 @@
 from multiprocessing import context
 from queue import Empty
 from .models import ImagenReceta, Ingrediente, Receta
-from django.shortcuts import  HttpResponse, render
+from django.shortcuts import  HttpResponse, render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -41,3 +41,14 @@ def recetaView(request, nombre):
     
     context = {"result":result, "imagenes":imagenes}
     return render(request,'receta.html', context=context)
+
+def modeView(request):
+
+    if request.session['night_mode'] == False or 'night_mode' not in request.session:
+        request.session['night_mode'] = True
+    else:
+        request.session['night_mode'] = False
+
+    request.session.modified = True
+    #return render(request,'plantilla.html')
+    return redirect(request.META['HTTP_REFERER'])

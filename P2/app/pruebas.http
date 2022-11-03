@@ -1,7 +1,7 @@
 GET http://localhost:5000/api/recipes
 
 ###
-GET http://localhost:5000/api/recipes?con=Vodka,Salt
+GET http://localhost:5000/api/recipes?con=Vodka
 
 ###
 POST http://localhost:5000/api/recipes 
@@ -14,10 +14,10 @@ content-type: application/json
 
 
 ###
-GET http://localhost:5000/api/recipes/6340342daa988cf9d50d0f4d
+GET http://localhost:5000/api/recipes/63637918afb2658ee2aeb3a8
 
 ###
-PUT http://localhost:5000/api/recipes/63403833a4ae96346d8fea1b
+PUT http://localhost:5000/api/recipes/63637918afb2658ee2aeb3a8
 content-type: application/json
 
 {   
@@ -31,7 +31,7 @@ content-type: application/json
 
 
 ###
-DELETE http://localhost:5000/api/recipes/633dbf9d097ae82c829337e5
+DELETE http://localhost:5000/api/recipes/63637918afb2658ee2aeb3a8
 
 
 ###
