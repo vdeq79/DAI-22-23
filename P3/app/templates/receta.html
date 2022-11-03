@@ -3,6 +3,7 @@
 {% block contenido %}
 
 {% if result %}
+    <a class="btn btn-default" href="{% url 'receta_edit' result.nombre %}"><span class="glyphicon glyphicon-pencil">Editar receta</span></a>
     <h1>{{result.nombre}}</h1>
     <h2>{{result.preparación}}</h2>
     {% for imagen in imagenes %}

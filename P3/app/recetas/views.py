@@ -1,7 +1,7 @@
 from datetime import datetime
 from .models import ImagenReceta, Ingrediente, Receta
 from .forms import RecetaForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 
 # Create your views here.
@@ -57,7 +57,7 @@ def modeView(request):
 
 def receta_new(request):
     if request.method == "POST":
-        form = RecetaForm(request.POST);
+        form = RecetaForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -68,3 +68,18 @@ def receta_new(request):
         form = RecetaForm()
         
     return render(request, 'receta_edit.html', {'form': form})
+
+def receta_edit(request,nombre):
+    post = get_object_or_404(Receta,nombre=nombre)
+    if request.method == "POST":
+        form = RecetaForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = datetime.now()
+            post.save()
+            return redirect('receta', nombre=post.nombre)
+    else:
+        form = RecetaForm(instance=post)
+    return render(request, 'receta_edit.html', {'form': form})
+
