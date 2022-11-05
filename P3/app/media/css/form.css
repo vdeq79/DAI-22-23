@@ -27,9 +27,54 @@ label {
 
 
 .post-form{
-    margin: 0 12px 0;
+    margin: 0 20px 0;
 }
 
 #form_title{
     text-align: center;
+}
+
+.utilityButton{
+    float: right;
+    margin-right: 20px;
+}
+
+/* The alert message box */
+.alert {
+    margin: 0 20px 0;
+    padding: 20px;
+    background-color:hotpink; /* Red */
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: black;
+} 
+
+h1{
+    margin: 20px ;
+}
+
+h2{
+    margin: 0 20px 0;
+}
+
+img{
+    margin: 20px;
+    max-width: 300px;
+    max-height: 300px;
 }

@@ -3,7 +3,9 @@
 {% block contenido %}
 
 {% if result %}
-    <a class="btn btn-default" href="{% url 'receta_edit' result.nombre %}"><span class="glyphicon glyphicon-pencil"></span></a>
+
+    <a class="btn btn-default utilityButton" href="{% url 'receta_delete' result.nombre %}"><span class="glyphicon glyphicon-trash"></span></a>
+    <a class="btn btn-default utilityButton" href="{% url 'receta_edit' result.nombre %}"><span class="glyphicon glyphicon-pencil"></span></a>
     <h1>{{result.nombre}}</h1>
     <h2>{{result.preparación}}</h2>
     {% for imagen in imagenes %}

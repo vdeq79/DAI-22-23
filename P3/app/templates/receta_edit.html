@@ -1,9 +1,12 @@
 {% extends "plantilla.html" %}
+
+{% load crispy_forms_tags %}
+
 {% block contenido %}
 <h2 id="form_title">{{titulo}}</h2>
 <form method="POST" class="post-form">
     {% csrf_token %}
-    {{ form }}
+    {{ form|crispy }}
     <button type="submit" class="save btn btn-default">Save</button>
 </form>
 
