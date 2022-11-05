@@ -67,7 +67,7 @@ def receta_new(request):
     else:
         form = RecetaForm()
         
-    return render(request, 'receta_edit.html', {'form': form})
+    return render(request, 'receta_edit.html', {'form': form, 'titulo': "Nueva receta"})
 
 def receta_edit(request,nombre):
     post = get_object_or_404(Receta,nombre=nombre)
@@ -81,5 +81,5 @@ def receta_edit(request,nombre):
             return redirect('receta', nombre=post.nombre)
     else:
         form = RecetaForm(instance=post)
-    return render(request, 'receta_edit.html', {'form': form})
+    return render(request, 'receta_edit.html', {'form': form, 'titulo': "Editar receta"})
 

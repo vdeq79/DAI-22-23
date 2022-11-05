@@ -19,3 +19,14 @@ body{
 .table a{
     color: orangered;
 }
+
+input,textarea{
+    color: black;
+}
+
+#mode_button{
+    background-image: linear-gradient(to bottom, coral, orangered 100%);
+    background-color: orangered;
+    border-color: coral;
+    color: black;
+}
