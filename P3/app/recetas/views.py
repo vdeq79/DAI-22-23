@@ -90,4 +90,3 @@ def receta_delete(request,nombre):
     receta.delete()
     messages.success(request, 'La receta ' + receta.nombre + ' ha sido eliminada')
     return redirect('/result/')
-

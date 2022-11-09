@@ -3,7 +3,7 @@
     color: aliceblue;
 }
 
-.navbar a{
+.navbar a, .utilityButton{
     color: orangered;
 }
 
@@ -25,8 +25,15 @@ input,textarea{
 }
 
 #mode_button{
-    background-image: linear-gradient(to bottom, coral, orangered 100%);
+    border-color: black;
     background-color: orangered;
-    border-color: coral;
     color: black;
+}
+
+.navbar a:hover, .utilityButton:hover{
+    color: rgb(199, 53, 0);
+}
+
+#mode_button:hover{
+    background-color: rgb(199, 53, 0);
 }
