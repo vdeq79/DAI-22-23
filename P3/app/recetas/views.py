@@ -8,6 +8,8 @@ from django.db.models import Q
 # Create your views here.
 
 def index(request):
+    if 'night_mode' not in request.session:
+        request.session['night_mode'] = False
     return render(request,'plantilla.html')
 
 def searchView(request):
@@ -52,17 +54,13 @@ def modeView(request):
             request.session['night_mode'] = False
 
     request.session.modified = True
-    #return render(request,'plantilla.html')
     return redirect(request.META['HTTP_REFERER'])
 
 def receta_new(request):
     if request.method == "POST":
         form = RecetaForm(request.POST)
-        if form.is_valid():
-            receta = form.save(commit=False)
-            receta.author = request.user
-            receta.published_date = datetime.now()
-            receta.save()
+        if form.is_valid():            
+            receta = form.save()
             messages.success(request, 'La receta '+ receta.nombre +' ha sido añadida')
             return redirect('receta', nombre=receta.nombre)
     else:
@@ -75,10 +73,7 @@ def receta_edit(request,nombre):
     if request.method == "POST":
         form = RecetaForm(request.POST, instance=receta)
         if form.is_valid():
-            receta = form.save(commit=False)
-            receta.author = request.user
-            receta.published_date = datetime.now()
-            receta.save()
+            receta = form.save()
             messages.success(request, 'La receta '+ receta.nombre + ' ha sido editada')
             return redirect('receta', nombre=receta.nombre)
     else:
