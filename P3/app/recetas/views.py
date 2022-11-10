@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 def index(request):
     if 'night_mode' not in request.session:
         request.session['night_mode'] = False
+
     return render(request,'plantilla.html')
 
 def searchView(request):
@@ -82,24 +83,32 @@ def receta_new(request):
 def receta_edit(request,nombre):
     titulo = "Editar receta"
 
-    receta = get_object_or_404(Receta,nombre=nombre)
+    receta = Receta.objects.get(nombre=nombre)
+
     if request.method == "POST":
+        #Después de esto, receta ya ha cambiado de valores a los valores del formulario
         form = RecetaForm(request.POST, instance=receta)
         if form.is_valid():
-            nombre = form.cleaned_data['nombre']
+            nombre_form = form.cleaned_data['nombre']
 
-            try:
-                Receta.objects.get(nombre=nombre)
-                messages.error(request, "La receta con nombre "+nombre+" ya existe")
-            except ObjectDoesNotExist:
-                receta = form.save()
-                messages.success(request, 'La receta '+ receta.nombre + ' ha sido editada')
-                return redirect('receta', nombre=receta.nombre)
+            #Si el nombre nuevo introducido no coincide con el actual (que es nombre y no receta.nombre pues receta.nombre ya está cambiada)
+            if nombre_form!=nombre:
+                try:
+                    #Y existe ya una receta en la base de datos con el mismo nombre, dar mensaje de error y volver a renderizar view de edición
+                    Receta.objects.get(nombre=nombre_form)
+                    messages.error(request, "La receta con nombre "+nombre_form+" ya existe")
+                    return render(request, 'receta_edit.html', {'form': form, 'titulo': titulo})
+                except ObjectDoesNotExist:
+                    pass
+            
+            #En otro caso, el nombre es el mismo o no está en la base de datos, luego se guarda los datos
+            receta = form.save()
+            messages.success(request, 'La receta '+ nombre + ' ha sido editada')
+            return redirect('receta', nombre=receta.nombre)
             
     else:
         form = RecetaForm(instance=receta)
-
-    return render(request, 'receta_edit.html', {'form': form, 'titulo': titulo})
+        return render(request, 'receta_edit.html', {'form': form, 'titulo': titulo})
 
 
 def receta_delete(request,nombre):
