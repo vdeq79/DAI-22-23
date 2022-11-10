@@ -3,7 +3,7 @@ from .models import ImagenReceta, Ingrediente, Receta
 from .forms import RecetaForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -17,7 +17,8 @@ def searchView(request):
     result = Receta.objects.all()
 
     if query!= '' and query!=None:
-        result = Receta.objects.filter(nombre=query)
+        qset = (Q(nombre__contains=query))
+        result = Receta.objects.filter(qset).distinct()
 
         if not result:
                 ingres = Ingrediente.objects.filter(nombre=query)
