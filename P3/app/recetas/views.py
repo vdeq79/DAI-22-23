@@ -4,6 +4,7 @@ from .forms import RecetaForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 
@@ -57,28 +58,48 @@ def modeView(request):
     return redirect(request.META['HTTP_REFERER'])
 
 def receta_new(request):
+
+    titulo = "Nueva receta"
+
     if request.method == "POST":
         form = RecetaForm(request.POST)
-        if form.is_valid():            
-            receta = form.save()
-            messages.success(request, 'La receta '+ receta.nombre +' ha sido añadida')
-            return redirect('receta', nombre=receta.nombre)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+
+            try:
+                Receta.objects.get(nombre=nombre)
+                messages.error(request, "La receta con nombre "+nombre+" ya existe")
+            except ObjectDoesNotExist:
+                receta = form.save()
+                messages.success(request, 'La receta '+ receta.nombre +' ha sido añadida')
+                return redirect('receta', nombre=receta.nombre)
+
     else:
         form = RecetaForm()
         
-    return render(request, 'receta_edit.html', {'form': form, 'titulo': "Nueva receta"})
+    return render(request, 'receta_edit.html', {'form': form, 'titulo': titulo})
 
 def receta_edit(request,nombre):
+    titulo = "Editar receta"
+
     receta = get_object_or_404(Receta,nombre=nombre)
     if request.method == "POST":
         form = RecetaForm(request.POST, instance=receta)
         if form.is_valid():
-            receta = form.save()
-            messages.success(request, 'La receta '+ receta.nombre + ' ha sido editada')
-            return redirect('receta', nombre=receta.nombre)
+            nombre = form.cleaned_data['nombre']
+
+            try:
+                Receta.objects.get(nombre=nombre)
+                messages.error(request, "La receta con nombre "+nombre+" ya existe")
+            except ObjectDoesNotExist:
+                receta = form.save()
+                messages.success(request, 'La receta '+ receta.nombre + ' ha sido editada')
+                return redirect('receta', nombre=receta.nombre)
+            
     else:
         form = RecetaForm(instance=receta)
-    return render(request, 'receta_edit.html', {'form': form, 'titulo': "Editar receta"})
+
+    return render(request, 'receta_edit.html', {'form': form, 'titulo': titulo})
 
 
 def receta_delete(request,nombre):
