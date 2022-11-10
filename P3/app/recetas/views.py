@@ -108,7 +108,9 @@ def receta_edit(request,nombre):
             
     else:
         form = RecetaForm(instance=receta)
-        return render(request, 'receta_edit.html', {'form': form, 'titulo': titulo})
+    
+    #Comtemplar el caso de que el form no es válido
+    return render(request, 'receta_edit.html', {'form': form, 'titulo': titulo})
 
 
 def receta_delete(request,nombre):
