@@ -12,6 +12,11 @@ label {
     display: inline-block;
 }
 
+
+#mode_button{
+    width: 125px;
+}
+
 .save{
     margin: 12px 0 12px 12px;
     padding: 12px 20px;

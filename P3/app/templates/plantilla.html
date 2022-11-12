@@ -24,6 +24,17 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}">Navbar</a>
 
+        {% load account %}
+
+        {% if user.is_authenticated %}
+          {% user_display user %}
+          <a href="{% url 'account_logout' %}">logout</a>
+        {% else %}
+          <a href="{% url 'account_signup' %}">sign up</a>
+          <a href="{% url 'account_login' %}">log in</a>
+        {% endif %}
+
+
         <form class="d-flex" action="{% url 'mode_switch' %}" method="POST">
           {% csrf_token %}
           <input type="checkbox" onchange="this.form.submit()" class="btn-check" id="btn-check" name="mode">

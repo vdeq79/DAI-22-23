@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'allauth', # new
     'allauth.account', # new
     'allauth.socialaccount', # new
-    'allauth.socialaccount.providers.github', # new
 ]
 
 MIDDLEWARE = [
@@ -153,6 +152,4 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = '/'
