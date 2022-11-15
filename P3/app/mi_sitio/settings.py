@@ -44,10 +44,14 @@ INSTALLED_APPS = [
     'crispy_forms',
 
     'django.contrib.sites', # new
+    
 
     'allauth', # new
     'allauth.account', # new
     'allauth.socialaccount', # new
+
+    'bootstrap4',
+
 ]
 
 MIDDLEWARE = [

@@ -12,7 +12,7 @@ body{
     color: white;
 }
 
-.table{
+.table, #user_name{
     color: aliceblue;
 }
 
@@ -36,4 +36,8 @@ input,textarea{
 
 #mode_button:hover{
     background-color: rgb(199, 53, 0);
+}
+
+.container{
+    color: black;
 }

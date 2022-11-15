@@ -63,3 +63,27 @@ img{
     max-width: 300px;
     max-height: 300px;
 }
+
+.btn-block{
+    margin: 10px 0 10px;
+}
+
+#id_remember{
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15px;
+    margin-top: 0;
+}
+
+.navbar-nav{
+    flex-direction: row;
+}
+
+.nav-item{
+    margin: 0 8px 0;
+}
+
+#user_name{
+    transition: none;
+}
