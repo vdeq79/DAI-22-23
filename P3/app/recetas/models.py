@@ -1,9 +1,8 @@
 # Create your models here.
-from distutils.command.upload import upload
 from django.db import models
   
 class Receta(models.Model):
-  nombre       = models.CharField(max_length=200)
+  nombre       = models.CharField(max_length=200,unique=True)
   preparación  = models.TextField(max_length=5000)
 
   def __str__(self):

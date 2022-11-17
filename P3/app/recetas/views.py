@@ -1,4 +1,3 @@
-from datetime import datetime
 from .models import ImagenReceta, Ingrediente, Receta
 from .forms import RecetaForm
 from django.shortcuts import render, redirect, get_object_or_404
@@ -65,6 +64,8 @@ def receta_new(request):
     if request.method == "POST":
         form = RecetaForm(request.POST)
         if form.is_valid():
+
+            '''
             nombre = form.cleaned_data['nombre']
 
             try:
@@ -74,6 +75,10 @@ def receta_new(request):
                 receta = form.save()
                 messages.success(request, 'La receta '+ receta.nombre +' ha sido añadida')
                 return redirect('receta', nombre=receta.nombre)
+            '''
+            receta = form.save()
+            messages.success(request, 'La receta '+ receta.nombre +' ha sido añadida')
+            return redirect('receta', nombre=receta.nombre)
 
     else:
         form = RecetaForm()
@@ -89,6 +94,8 @@ def receta_edit(request,nombre):
         #Después de esto, receta ya ha cambiado de valores a los valores del formulario
         form = RecetaForm(request.POST, instance=receta)
         if form.is_valid():
+            
+            '''
             nombre_form = form.cleaned_data['nombre']
 
             #Si el nombre nuevo introducido no coincide con el actual (que es nombre y no receta.nombre pues receta.nombre ya está cambiada)
@@ -100,6 +107,7 @@ def receta_edit(request,nombre):
                     return render(request, 'receta_edit.html', {'form': form, 'titulo': titulo})
                 except ObjectDoesNotExist:
                     pass
+            '''
             
             #En otro caso, el nombre es el mismo o no está en la base de datos, luego se guarda los datos
             receta = form.save()
