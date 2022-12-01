@@ -1,0 +1,74 @@
+GET http://localhost:5000/api/recipes
+
+###
+GET http://localhost:5000/api/recipes?con=Vodka
+
+###
+POST http://localhost:5000/api/recipes 
+content-type: application/json
+
+{
+    "name": "sample",
+    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+
+
+###
+GET http://localhost:5000/api/recipes/63637918afb2658ee2aeb3a8
+
+###
+PUT http://localhost:5000/api/recipes/63637918afb2658ee2aeb3a8
+content-type: application/json
+
+{   
+    "$set":{
+        "name": "spl",
+        "ingredients": [{"EQ":"Wed, 21 Oct 2015 18:27:50 GMT"}, {"eq":"algo"}],
+        "instructions": ["fsaf",
+        "Shake well and pour in a highballglass"]    
+    }
+}
+
+
+###
+DELETE http://localhost:5000/api/recipes/63637918afb2658ee2aeb3a8
+
+
+###
+GET http://localhost:5000/ApiF/recipes
+
+###
+GET http://localhost:5000/ApiF/recipes?con=Kirschwasser
+
+###
+POST http://localhost:5000/ApiF/recipes
+content-type: application/json
+
+{
+    "name": "sample",
+    "ingredients": [{"EQ":"Wed, 21 Oct 2015 18:27:50 GMT"}, {"eq":"algo"}],
+    "instructions": ["Wed, 21 Oct 2015 18:27:50 GMT",
+      "Shake well and pour in a highballglass"]
+
+}
+
+###
+GET http://localhost:5000/ApiF/recipes/6347d4a2869c6f5588cdfacd
+
+###
+DELETE http://localhost:5000/ApiF/recipes/6347d3ec880785eaba38581b
+
+
+###
+PUT http://localhost:5000/ApiF/recipes/63403833a4ae96346d8fea1b
+content-type: application/json
+
+{
+    "$set":{
+        "name": "sample2",
+        "ingredients": "algo",
+        "instructions": ["wtf",
+        "Shake well and pour in a highballglass"]
+    }
+
+}
