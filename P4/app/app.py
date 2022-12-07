@@ -130,14 +130,16 @@ def extraerDatosMongo(busqueda):
 
   for doc in busqueda:
     app.logger.debug(doc)  # salida consola
+    doc['_id'] = str(doc['_id'])
     lista_docs.append(doc)
 
-  response = {
+
+  '''response = {
   'len': len(lista_docs),
   'data': lista_docs
-  }
+  }'''
 
-  return dumps(response)
+  return jsonify(lista_docs)
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/todas_las_recetas')
@@ -147,7 +149,7 @@ def mongo():
   response = extraerDatosMongo(recetas)
   
   # Devolver en JSON al cliente
-  return Response(response, mimetype='application/json')
+  return response
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/recetas_de/<name>')
@@ -157,7 +159,7 @@ def recetas_de(name):
   response = extraerDatosMongo(recetas)
 
   # Devolver en JSON al cliente
-  return Response(response, mimetype='application/json')
+  return response
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/recetas_con/<name>')
@@ -167,7 +169,7 @@ def recetas_con(name):
   response = extraerDatosMongo(recetas)
 
   # Devolver en JSON al cliente
-  return Response(response, mimetype='application/json')
+  return response
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
 @app.route('/recetas_compuestas_de/<int:n>/ingredientes')
@@ -177,7 +179,7 @@ def compuestas_de_num(n):
   response = extraerDatosMongo(recetas)
 
   # Devolver en JSON al cliente
-  return Response(response, mimetype='application/json')
+  return response
 
 
 #<----------------------------------------------------------------------------------------------------------------------------------->
@@ -196,7 +198,7 @@ def compuestas_de(varargs=None):
   response = extraerDatosMongo(recetas)
 
   # Devolver en JSON al cliente
-  return Response(response, mimetype='application/json')
+  return response
   #return varargs
 
 #<----------------------------------------------------------------------------------------------------------------------------------->

@@ -1,8 +1,11 @@
-const recetas = []              // declaraciones   
-let html_str  = ''              // de variables
-let i         = 0               //
+var recetas = []              // declaraciones   
 // fetch devuelve una promise
 function fetchApp(url){
+
+  let html_str  = ''              // de variables
+  let i         = 0               //
+  recetas=[];
+
   fetch(url)           // GET por defecto,
   .then(res => res.json())        // respuesta en json, otra promise
   .then(filas => {                // arrow function
@@ -30,9 +33,11 @@ function fetchApp(url){
                             </button>
                           </td>
                         </tr>`         // ES6 templates
-      });
+      })
       document.getElementById('tbody').innerHTML=html_str  // se pone el html en su sitio
+
   })
+  .catch(err=>console.log(err));
 }
 
 fetchApp('/api/recipes');
@@ -119,8 +124,6 @@ document.getElementById('btSaveForm').addEventListener("click",event=>{
     body={'$set':body};
   }
 
-  console.log(body);
-
   fetch(url,{
     method: method,
     headers: {
@@ -132,6 +135,14 @@ document.getElementById('btSaveForm').addEventListener("click",event=>{
   .catch((err)=>alert(err));
 })
 
-document.getElementById('btSearch').addEventListener("click",function(){
+document.getElementById('formSearch').addEventListener("submit",event=>{
+  event.preventDefault()
+  let input = document.getElementById('inputSearch').value;
+  let url='/api/recipes';
 
+  if(input.trim().length !== 0)
+    url='/recetas_de/'+input
+  
+  document.getElementById('inputSearch').value="";
+  fetchApp(url);
 })
