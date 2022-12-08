@@ -18,18 +18,23 @@ function fetchApp(url){
                         <td>
                             <button onclick="detalle('${i}')" 
                                   type="button" class="btn btn-outline btn-sm"
-                                  data-bs-toggle="modal" data-bs-target="#detailModal">
+                                  data-bs-toggle="modal" data-bs-target="#detailModal"
+                                  style="font-size: inherit;">
                             ${fila.name}
                             </button>
                           </td>
                           <td>
                             <button onclick="showEditModal('${i}')"
                                     type="button" class="btn btn-warning btn-sm"
-                                    data-bs-toggle="modal" data-bs-target="#formModal">Edit
+                                    data-bs-toggle="modal" data-bs-target="#formModal"
+                                    style="font-size: inherit;">
+                            Edit
                             </button>
                             <button onclick="showDeleteModal('${i}')"
                                     type="button" class="btn btn-danger btn-sm"
-                                    data-bs-toggle="modal" data-bs-target="#deleteModal">Delete
+                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                    style="font-size: inherit;">
+                            Delete
                             </button>
                           </td>
                         </tr>`         // ES6 templates
@@ -145,4 +150,8 @@ document.getElementById('formSearch').addEventListener("submit",event=>{
   
   document.getElementById('inputSearch').value="";
   fetchApp(url);
+})
+
+document.getElementById('btnZoomIn').addEventListener("click", function(){
+
 })
