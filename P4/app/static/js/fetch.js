@@ -1,4 +1,17 @@
 var recetas = []              // declaraciones   
+fetchApp('/api/recipes');
+if (localStorage.getItem('fontSize')==null){
+  let actualValue = document.getElementById('fontDiv').style.fontSize;
+  let value = actualValue.substring(0,actualValue.length-3);
+  localStorage.setItem('fontSize',value);
+}
+document.getElementById('fontDiv').style.fontSize = localStorage.getItem('fontSize')+'rem';
+
+if (localStorage.getItem('mode')==null){
+  localStorage.setItem('mode','day');
+}
+changeMode();
+
 // fetch devuelve una promise
 function fetchApp(url){
 
@@ -19,7 +32,7 @@ function fetchApp(url){
                             <button onclick="detalle('${i}')" 
                                   type="button" class="btn btn-outline btn-sm"
                                   data-bs-toggle="modal" data-bs-target="#detailModal"
-                                  style="font-size: inherit;">
+                                  style="font-size: inherit; color: inherit">
                             ${fila.name}
                             </button>
                           </td>
@@ -44,8 +57,6 @@ function fetchApp(url){
   })
   .catch(err=>console.log(err));
 }
-
-fetchApp('/api/recipes');
 
 function detalle(i) {  // saca un modal con la información de cada coctel
   // saca un modal con receta[i]
@@ -152,19 +163,41 @@ document.getElementById('formSearch').addEventListener("submit",event=>{
   fetchApp(url);
 })
 
-document.getElementById('btnZoomIn').addEventListener("click", function(){
-  let actualValue = document.getElementById('fontDiv').style.fontSize;
-  let value = parseInt(actualValue.substring(0,actualValue.length-3))+1;
-  document.getElementById('fontDiv').style.fontSize = value.toString()+'rem';
+document.getElementById('btZoomIn').addEventListener("click", function(){
+  let value = localStorage.getItem('fontSize');
+  value++;
+
+  localStorage.setItem('fontSize',value);
+  document.getElementById('fontDiv').style.fontSize = value+'rem';
 })
 
 
-document.getElementById('btnZoomOut').addEventListener("click", function(){
-  let actualValue = document.getElementById('fontDiv').style.fontSize;
-  let value = parseInt(actualValue.substring(0,actualValue.length-3));
-
+document.getElementById('btZoomOut').addEventListener("click", function(){
+  let value = localStorage.getItem('fontSize');
   if(value>1)
     value--;
 
-  document.getElementById('fontDiv').style.fontSize = value.toString()+'rem';
+  localStorage.setItem('fontSize',value);
+  document.getElementById('fontDiv').style.fontSize = value+'rem';
 })
+
+document.getElementById('btMode').addEventListener("click",function(){
+  if (localStorage.getItem('mode')==='day')
+    localStorage.setItem('mode','night');
+  else
+    localStorage.setItem('mode','day');
+
+  changeMode();
+})
+
+function changeMode(){
+  if (localStorage.getItem('mode')==='day'){
+    document.getElementById('btMode').textContent = 'Modo noche';
+    document.getElementById('modeLink').href = '';
+  }
+  else{
+    document.getElementById('btMode').textContent = 'Modo dia';
+    document.getElementById('modeLink').href = "static/css/dark.css";
+  }
+
+}
