@@ -146,12 +146,25 @@ document.getElementById('formSearch').addEventListener("submit",event=>{
   let url='/api/recipes';
 
   if(input.trim().length !== 0)
-    url='/recetas_de/'+input
+    url='/recetas_de/'+input;
   
   document.getElementById('inputSearch').value="";
   fetchApp(url);
 })
 
 document.getElementById('btnZoomIn').addEventListener("click", function(){
+  let actualValue = document.getElementById('fontDiv').style.fontSize;
+  let value = parseInt(actualValue.substring(0,actualValue.length-3))+1;
+  document.getElementById('fontDiv').style.fontSize = value.toString()+'rem';
+})
 
+
+document.getElementById('btnZoomOut').addEventListener("click", function(){
+  let actualValue = document.getElementById('fontDiv').style.fontSize;
+  let value = parseInt(actualValue.substring(0,actualValue.length-3));
+
+  if(value>1)
+    value--;
+
+  document.getElementById('fontDiv').style.fontSize = value.toString()+'rem';
 })
