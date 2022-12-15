@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import user_passes_test
 
 # Create your views here.
 
@@ -57,6 +59,7 @@ def modeView(request):
     request.session.modified = True
     return redirect(request.META['HTTP_REFERER'])
 
+@user_passes_test(lambda u: u.is_superuser, redirect_field_name=None)
 def receta_new(request):
 
     titulo = "Nueva receta"
@@ -85,6 +88,8 @@ def receta_new(request):
         
     return render(request, 'receta_edit.html', {'form': form, 'titulo': titulo})
 
+
+@staff_member_required(login_url='/accounts/login/',redirect_field_name=None)
 def receta_edit(request,nombre):
     titulo = "Editar receta"
 
@@ -120,7 +125,7 @@ def receta_edit(request,nombre):
     #Comtemplar el caso de que el form no es válido
     return render(request, 'receta_edit.html', {'form': form, 'titulo': titulo})
 
-
+@user_passes_test(lambda u: u.is_superuser, redirect_field_name=None)
 def receta_delete(request,nombre):
     receta = get_object_or_404(Receta,nombre=nombre)
     receta.delete()
